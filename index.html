@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>租車 Demo App</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="demo-stage">
+      <div class="phone-frame">
+        <div class="status-bar">
+          <span class="time" id="statusTime">09:41</span>
+          <span class="status-icons">◉ ◇ ◈</span>
+        </div>
+        <header class="app-header">
+          <h1>租車</h1>
+          <button class="header-action" id="helpBtn" aria-label="說明">？</button>
+        </header>
+
+        <section class="content" id="onboarding">
+          <div class="intro">
+            <div class="hero-emoji">🌍</div>
+            <h2 class="intro-title">先設定旅遊資訊</h2>
+            <p class="intro-sub">請選擇旅遊目的地與同行人數</p>
+
+            <div class="field">
+              <label for="countrySelect">目的地國家</label>
+              <select id="countrySelect" required>
+                <option value="" disabled selected>選擇國家</option>
+                <option>日本</option>
+                <option>韓國</option>
+                <option>泰國</option>
+                <option>美國</option>
+                <option>歐洲（申根）</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="peopleCount">同行人數</label>
+              <select id="peopleCount" required>
+                <option value="" disabled selected>選擇人數</option>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+              </select>
+            </div>
+
+            <button id="startBtn" class="primary" disabled>開始選擇租車</button>
+          </div>
+        </section>
+
+        <section class="content" id="content" hidden>
+          <form class="rent-form" id="rentForm" novalidate>
+            <div class="field">
+              <label for="pickupLocation">取車地點</label>
+              <select id="pickupLocation" required>
+                <option value="" disabled selected>選擇地點</option>
+                <option>台北車站</option>
+                <option>桃園機場 T1</option>
+                <option>台中高鐵</option>
+                <option>高雄左營</option>
+              </select>
+            </div>
+
+            <div class="inline field checkbox">
+              <input type="checkbox" id="sameDropoff" checked>
+              <label for="sameDropoff">同地還車</label>
+            </div>
+
+            <div class="field" id="dropoffWrap" hidden>
+              <label for="dropoffLocation">還車地點</label>
+              <select id="dropoffLocation">
+                <option value="" disabled selected>選擇地點</option>
+                <option>台北車站</option>
+                <option>桃園機場 T1</option>
+                <option>台中高鐵</option>
+                <option>高雄左營</option>
+              </select>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="pickupDate">取車日期</label>
+                <input type="date" id="pickupDate" required>
+              </div>
+              <div class="field">
+                <label for="pickupTime">時間</label>
+                <input type="time" id="pickupTime" required>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="dropoffDate">還車日期</label>
+                <input type="date" id="dropoffDate" required>
+              </div>
+              <div class="field">
+                <label for="dropoffTime">時間</label>
+                <input type="time" id="dropoffTime" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>車款選擇</label>
+              <div class="car-cards" role="list">
+                <button type="button" class="car-card" data-car="經濟小型" data-price="$1,280/日">
+                  <div class="car-emoji">🚗</div>
+                  <div class="car-meta">
+                    <div class="car-name">經濟小型</div>
+                    <div class="car-desc">省油 • 4人 • 2件行李</div>
+                  </div>
+                  <div class="car-price">$1,280/日</div>
+                </button>
+
+                <button type="button" class="car-card" data-car="休旅 SUV" data-price="$1,980/日">
+                  <div class="car-emoji">🚙</div>
+                  <div class="car-meta">
+                    <div class="car-name">休旅 SUV</div>
+                    <div class="car-desc">大空間 • 5人 • 4件行李</div>
+                  </div>
+                  <div class="car-price">$1,980/日</div>
+                </button>
+
+                <button type="button" class="car-card" data-car="高級豪華" data-price="$3,280/日">
+                  <div class="car-emoji">🛻</div>
+                  <div class="car-meta">
+                    <div class="car-name">高級豪華</div>
+                    <div class="car-desc">高性能 • 4人 • 3件行李</div>
+                  </div>
+                  <div class="car-price">$3,280/日</div>
+                </button>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <footer class="app-footer">
+          <button id="searchBtn" class="primary" disabled>查看可租車款</button>
+        </footer>
+
+        <div class="modal" id="summaryModal" hidden>
+          <div class="modal-backdrop"></div>
+          <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="summaryTitle">
+            <h2 id="summaryTitle">租車摘要</h2>
+            <div class="summary" id="summary"></div>
+            <div class="modal-actions">
+              <button class="ghost" id="closeModal">返回</button>
+              <button class="primary" id="confirmBtn">前往下一步（示意）</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+  </html>
+
+
